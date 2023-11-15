@@ -60,14 +60,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Pay your way Globally',
+                              'Place Order',
                               style: Theme.of(context).textTheme.headlineLarge,
                               textAlign: TextAlign.left,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 16.0, bottom: 48.0),
                               child: Text(
-                                'Low fees, accepted anywhere. Create multiple cards for shopping, subscription & travel.',
+                                'Find your favorite dishes and place an order in just a few taps!',
                                 style: Theme.of(context).textTheme.bodyMedium,
                                 textAlign: TextAlign.left,
                               ),
@@ -83,14 +83,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Pay Bills with Ease',
+                              'Secure Payment',
                               style: Theme.of(context).textTheme.headlineLarge,
                               textAlign: TextAlign.left,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 16.0, bottom: 48.0),
                               child: Text(
-                                'Pay all of your your bills effortlessly with Shilling and get super awesome cashbacks.',
+                                'Securely pay for your order with ease using our trusted payment methods',
                                 style: Theme.of(context).textTheme.bodyMedium,
                                 textAlign: TextAlign.left,
                               ),
@@ -106,14 +106,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Gift your Loved Ones',
+                              'Enjoy the Food',
                               style: Theme.of(context).textTheme.headlineLarge,
                               textAlign: TextAlign.left,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 16.0, bottom: 48.0),
                               child: Text(
-                                'There is always love in sharing. With Shilling you can gift a virtual card.',
+                                'Enjoy your favorite meals with our user-friendly app',
                                 style: Theme.of(context).textTheme.bodyMedium,
                                 textAlign: TextAlign.left,
                               ),
@@ -136,13 +136,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         bottomNavigationBar: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-            child: Column(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Divider(),
-                EdenPrimaryButton(
-                  label: "Get Started",
-                  // onTap: ()=> EdenNavigator.clearAndNavigateTo(context, SignUpPhoneScreen.routeName),
+                Flexible(
+                  child: EdenPrimaryButton(
+                    label: "Google",
+                    // onTap: ()=> EdenNavigator.clearAndNavigateTo(context, SignUpPhoneScreen.routeName),
+                  ),
+                ),
+                SizedBox(width: 20),
+                Flexible(
+                  child: EdenPrimaryButton(
+                    label: "Github",
+                    // onTap: ()=> EdenNavigator.clearAndNavigateTo(context, SignUpPhoneScreen.routeName),
+                  ),
                 ),
               ],
             ),

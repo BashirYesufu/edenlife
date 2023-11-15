@@ -29,11 +29,11 @@ class EdenPrimaryButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Material(
-          color: enabled ? backgroundColor : Theme.of(context).primaryColor,
+          color: Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24),
               side: BorderSide(
-                // color: borderColor ?? (enabled ? backgroundColor : Theme.of(context).primaryColor),
+                color: borderColor ?? (enabled ? (backgroundColor ?? Theme.of(context).primaryColor) : Colors.grey),
                 width: 1.0,
               )
           ),
@@ -47,6 +47,9 @@ class EdenPrimaryButton extends StatelessWidget {
             height: 48,
             child: child ?? Text(
               label ?? '',
+              style: TextStyle(
+                color: Colors.white
+              ),
             ),
           ),
         ),
