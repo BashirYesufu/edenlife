@@ -1,4 +1,6 @@
+import 'package:eden/features/order_screen.dart';
 import 'package:eden/features/view_model/auth_view_model.dart';
+import 'package:eden/util/eden_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -22,6 +24,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
    authViewModel.loginObservable.listen((credentials) {
      print(credentials);
+     EdenNavigator.navigateTo(context, OrderScreen.routeName);
    }, onError: (error){
      print(error);
    });

@@ -1,3 +1,4 @@
+import 'package:eden/features/order_screen.dart';
 import 'package:flutter/material.dart';
 import '../features/onboarding.dart';
 import '../features/splash.dart';
@@ -8,6 +9,7 @@ class RouteHandler {
   static Map<String, Widget Function(BuildContext)> routes = {
     SplashScreen.routeName: (context) => SplashScreen(),
     OnboardingScreen.routeName: (context) => OnboardingScreen(),
+    OrderScreen.routeName: (context) => OrderScreen(),
   };
 
   static Route<dynamic>? generatedRoute(RouteSettings route) {
