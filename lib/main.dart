@@ -7,7 +7,7 @@ import 'package:eden/firebase_options.dart' as live;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    name: 'eden',
+    name: 'Eden',
     options: live.DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const Eden());
