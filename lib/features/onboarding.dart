@@ -1,3 +1,4 @@
+import 'package:eden/features/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -14,6 +15,19 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   PageController controller = PageController(viewportFraction: 1, keepPage: true);
+  final AuthViewModel authViewModel = AuthViewModel();
+
+  @override
+  void initState() {
+
+   authViewModel.loginObservable.listen((credentials) {
+     print(credentials);
+   }, onError: (error){
+     print(error);
+   });
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -142,14 +156,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 Flexible(
                   child: EdenPrimaryButton(
                     label: "Google",
-                    // onTap: ()=> EdenNavigator.clearAndNavigateTo(context, SignUpPhoneScreen.routeName),
+                    onTap: ()=> authViewModel.loginWithGoogle(),
                   ),
                 ),
                 SizedBox(width: 20),
                 Flexible(
                   child: EdenPrimaryButton(
                     label: "Github",
-                    // onTap: ()=> EdenNavigator.clearAndNavigateTo(context, SignUpPhoneScreen.routeName),
+                    onTap: ()=> authViewModel.loginWithGithub(context),
                   ),
                 ),
               ],
