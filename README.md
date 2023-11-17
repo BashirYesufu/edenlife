@@ -65,6 +65,9 @@ arch -x86_64 pod repo update
 arch -x86_64 pod install
 ```
 
+### PS:
+This work was done in 96 hours and might not satisfy all requirements for completeness. However, While I recognize that the current version is not complete, I am confident in my ability to enhance and refine it further. I believe that with additional time and effort, I can deliver a significantly improved and more polished result.
+
 ## Conclusion
 May The Code be with you.
 
