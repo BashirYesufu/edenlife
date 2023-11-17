@@ -64,7 +64,7 @@ class _OrderTimelineScreenState extends State<OrderTimelineScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(backgroundColor: Colors.grey, radius: 5,),
+                  CircleAvatar(backgroundColor: Colors.green, radius: 5,),
                   Flexible(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 12.0),
