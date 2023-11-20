@@ -1,5 +1,7 @@
+import 'package:eden/features/view_model/order_view_model.dart';
 import 'package:flutter/material.dart';
 import '../constants/eden_colors.dart';
+import '../core/models/order_timeline.dart';
 
 class OrderTimelineScreen extends StatefulWidget {
   const OrderTimelineScreen({super.key});
@@ -10,6 +12,8 @@ class OrderTimelineScreen extends StatefulWidget {
 }
 
 class _OrderTimelineScreenState extends State<OrderTimelineScreen> {
+  final OrderViewModel _orderViewModel = OrderViewModel();
+
   List<OrderTimeline> timeline = [
     OrderTimeline(
         orderStatus: 'Order placed',
@@ -42,7 +46,18 @@ class _OrderTimelineScreenState extends State<OrderTimelineScreen> {
         time: DateTime.now()
     ),
   ];
-  
+
+  @override
+  void initState() {
+    _orderViewModel.subscribe();
+
+    _orderViewModel.ablyMessageObservable.listen((event) {
+      // _refreshOrder(message);
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,17 +100,4 @@ class _OrderTimelineScreenState extends State<OrderTimelineScreen> {
       ),
     );
   }
-}
-
-class OrderTimeline {
-  String orderStatus;
-  String statusDescription;
-  DateTime time;
-
-  OrderTimeline({
-    required this.orderStatus,
-    required this.statusDescription,
-    required this.time,
-});
-
 }

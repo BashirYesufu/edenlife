@@ -1,7 +1,7 @@
-import 'package:ably_flutter/ably_flutter.dart' as ably;
+import '../../models/order_status.dart';
 
 abstract class OrderRepository {
 
-  Future<ably.Message> subscribeToChannel();
+  Future<OrderStatus> subscribeToChannel();
 
 }

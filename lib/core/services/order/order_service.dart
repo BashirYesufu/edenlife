@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:ably_flutter/ably_flutter.dart' as ably;
+import 'package:eden/core/models/order_status.dart';
 
 class OrderService  {
   
@@ -17,12 +19,14 @@ class OrderService  {
     realtime = ably.Realtime(options: clientOptions);
   }
 
-  Future<ably.Message> subscribeToChannel() async {
-    var completer = Completer<ably.Message>();
+  Future<OrderStatus> subscribeToChannel() async {
+    var completer = Completer<OrderStatus>();
     if (realtime != null) {
       _channel = realtime?.channels.get('ORDERS');
       _channel?.subscribe().listen((event) {
-        completer.complete(event);
+        Map<String, dynamic> response = jsonDecode(event.data.toString());
+        OrderStatus orderStatus = OrderStatus.fromJson(response);
+        completer.complete(orderStatus);
       });
     }
     return completer.future;

@@ -1,6 +1,6 @@
 import 'package:rxdart/rxdart.dart';
+import '../../core/models/order_status.dart';
 import '../../core/services/order/order_repository_impl.dart';
-import 'package:ably_flutter/ably_flutter.dart' as ably;
 
 class OrderViewModel {
   final _repo = OrderRepositoryImpl();
@@ -11,14 +11,14 @@ class OrderViewModel {
   final _errorMessageSubject = BehaviorSubject<String>();
   Stream<String> get errorMessageObservable => _errorMessageSubject.stream;
 
-  final _ablyMessageSubject = BehaviorSubject<ably.Message>();
-  Stream<ably.Message> get ablyMessageObservable => _ablyMessageSubject.stream;
+  final _ablyMessageSubject = BehaviorSubject<OrderStatus>();
+  Stream<OrderStatus> get ablyMessageObservable => _ablyMessageSubject.stream;
 
   void subscribe() async {
     try {
       _progressSubject.sink.add(true);
-      await _repo.subscribeToChannel().then((message) {
-        _ablyMessageSubject.sink.add(message);
+      await _repo.subscribeToChannel().then((status) {
+        _ablyMessageSubject.sink.add(status);
         _progressSubject.sink.add(false);
       }, onError: (e) {
         _ablyMessageSubject.sink.addError(e);

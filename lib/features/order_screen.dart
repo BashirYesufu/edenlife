@@ -22,6 +22,10 @@ class _OrderScreenState extends State<OrderScreen> {
   void initState() {
     _orderViewModel.subscribe();
 
+    _orderViewModel.ablyMessageObservable.listen((event) {
+      // _refreshOrder(message);
+    });
+
     super.initState();
   }
 
