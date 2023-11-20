@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ably_flutter/ably_flutter.dart' as ably;
 
 class OrderService  {
@@ -15,19 +17,15 @@ class OrderService  {
     realtime = ably.Realtime(options: clientOptions);
   }
 
-  void subscribeToChannel() async {
+  Future<ably.Message> subscribeToChannel() async {
+    var completer = Completer<ably.Message>();
     if (realtime != null) {
-      _channel = realtime?.channels.get('getting-started');
+      _channel = realtime?.channels.get('ORDERS');
       _channel?.subscribe().listen((event) {
-        _handleIncomingMessage(event);
+        completer.complete(event);
       });
     }
+    return completer.future;
   }
 
-  void _handleIncomingMessage(ably.Message message) {
-    final channel = realtime?.channels.get('quickstart');
-    channel?.subscribe().listen((message) {
-      print('Received a greeting message in realtime: ${message.data}');
-    });
-  }
 }

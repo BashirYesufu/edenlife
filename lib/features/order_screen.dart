@@ -1,5 +1,6 @@
 import 'package:eden/constants/eden_colors.dart';
 import 'package:eden/features/order_timeline.dart';
+import 'package:eden/features/view_model/order_view_model.dart';
 import 'package:eden/util/eden_navigator.dart';
 import 'package:eden/widgets/eden_primary_button.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,16 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+
+  final OrderViewModel _orderViewModel = OrderViewModel();
+
+  @override
+  void initState() {
+    _orderViewModel.subscribe();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
