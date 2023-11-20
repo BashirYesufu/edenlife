@@ -27,9 +27,10 @@ class OrderService  {
         Map<String, dynamic> response = jsonDecode(event.data.toString());
         OrderStatus orderStatus = OrderStatus.fromJson(response);
         completer.complete(orderStatus);
+      }, onError: (e){
+        completer.completeError(e);
       });
     }
     return completer.future;
   }
-
 }
