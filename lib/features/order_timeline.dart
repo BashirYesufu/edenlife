@@ -1,11 +1,14 @@
+import 'package:eden/core/models/order_status.dart';
 import 'package:eden/features/view_model/order_view_model.dart';
 import 'package:flutter/material.dart';
 import '../constants/eden_colors.dart';
 import '../core/models/order_timeline.dart';
+import '../util/eden_util.dart';
 
 class OrderTimelineScreen extends StatefulWidget {
-  const OrderTimelineScreen({super.key});
-  static final routeName = "/order-timeline";
+  const OrderTimelineScreen({ this.orderStatus, super.key,});
+  static const routeName = "/order-timeline";
+  final OrderStatus? orderStatus;
 
   @override
   State<OrderTimelineScreen> createState() => _OrderTimelineScreenState();
@@ -13,46 +16,21 @@ class OrderTimelineScreen extends StatefulWidget {
 
 class _OrderTimelineScreenState extends State<OrderTimelineScreen> {
   final OrderViewModel _orderViewModel = OrderViewModel();
-
-  List<OrderTimeline> timeline = [
-    OrderTimeline(
-        orderStatus: 'Order placed',
-        statusDescription: 'Waiting for the vendor to accept your order',
-        time: DateTime.now()
-    ),
-    OrderTimeline(
-        orderStatus: 'Order accepted',
-        statusDescription: 'The vendor is preparing your order and a rider will pickup soon',
-        time: DateTime.now()
-    ),
-    OrderTimeline(
-        orderStatus: 'Order pickup in progress',
-        statusDescription: 'A rider is on the way to pickup your order',
-        time: DateTime.now()
-    ),
-    OrderTimeline(
-        orderStatus: 'Order on the way',
-        statusDescription: 'A rider has picked up your order and is bringing it your way',
-        time: DateTime.now()
-    ),
-    OrderTimeline(
-        orderStatus: 'Order arrived',
-        statusDescription: 'Don\'t keep the rider waiting',
-        time: DateTime.now()
-    ),
-    OrderTimeline(
-        orderStatus: 'Order delivered',
-        statusDescription: 'Enjoy!',
-        time: DateTime.now()
-    ),
-  ];
+  OrderStatus? currentOrderStatus;
 
   @override
   void initState() {
+    setState(() {
+      currentOrderStatus = widget.orderStatus;
+    });
+
     _orderViewModel.subscribe();
 
-    _orderViewModel.ablyMessageObservable.listen((event) {
-      // _refreshOrder(message);
+    _orderViewModel.ablyMessageObservable.listen((orderStatus) {
+      setState(() {
+        currentOrderStatus = orderStatus;
+      });
+      _orderViewModel.subscribe();
     });
 
     super.initState();
@@ -68,7 +46,7 @@ class _OrderTimelineScreenState extends State<OrderTimelineScreen> {
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: List.generate(
-            timeline.length,
+            OrderTimeline.timeline.length,
             (index) => Container(
               padding: EdgeInsets.symmetric(vertical: 20),
               margin: EdgeInsets.symmetric(vertical: 20),
@@ -79,15 +57,15 @@ class _OrderTimelineScreenState extends State<OrderTimelineScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(backgroundColor: Colors.green, radius: 5,),
+                  CircleAvatar(backgroundColor: EdenUtil.checkOrderStatus(index: index, orderStatus: currentOrderStatus?.orderStatus) ? Colors.green : Colors.grey, radius: 10,),
                   Flexible(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 12.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(timeline[index].orderStatus, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
-                          Text(timeline[index].statusDescription, style: TextStyle(fontSize: 12),),
+                          Text(OrderTimeline.timeline[index].orderStatus, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
+                          Text(OrderTimeline.timeline[index].statusDescription, style: TextStyle(fontSize: 12),),
                         ],
                       ),
                     ),

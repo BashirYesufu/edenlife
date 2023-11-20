@@ -2,9 +2,11 @@ import 'package:eden/constants/eden_colors.dart';
 import 'package:eden/features/order_timeline.dart';
 import 'package:eden/features/view_model/order_view_model.dart';
 import 'package:eden/util/eden_navigator.dart';
+import 'package:eden/util/eden_util.dart';
 import 'package:eden/widgets/eden_primary_button.dart';
 import 'package:flutter/material.dart';
 import '../constants/image_path.dart';
+import '../core/models/order_status.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
@@ -17,13 +19,22 @@ class OrderScreen extends StatefulWidget {
 class _OrderScreenState extends State<OrderScreen> {
 
   final OrderViewModel _orderViewModel = OrderViewModel();
+  OrderStatus? currentOrderStatus;
 
   @override
   void initState() {
+
+    setState(() {
+      currentOrderStatus = OrderStatus(orderStatus: 'ORDER PLACED');
+    });
+
     _orderViewModel.subscribe();
 
-    _orderViewModel.ablyMessageObservable.listen((event) {
-      // _refreshOrder(message);
+    _orderViewModel.ablyMessageObservable.listen((orderStatus) {
+      setState(() {
+        currentOrderStatus = orderStatus;
+      });
+      _orderViewModel.subscribe();
     });
 
     super.initState();
@@ -62,8 +73,8 @@ class _OrderScreenState extends State<OrderScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Your order has been placed', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
-                              Text('Waiting for the vendor to accept your order', style: TextStyle(fontSize: 14),),
+                              Text(EdenUtil.displayOrderTimeline(orderStatus: currentOrderStatus?.orderStatus).orderStatus, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
+                              Text(EdenUtil.displayOrderTimeline(orderStatus: currentOrderStatus?.orderStatus).statusDescription, style: TextStyle(fontSize: 14),),
                             ],
                           ),
                         ),
@@ -74,7 +85,7 @@ class _OrderScreenState extends State<OrderScreen> {
                             children: List.generate(6, (index) => Container(
                               height: 2,
                               width: MediaQuery.of(context).size.width / 9,
-                              color: Colors.green,
+                              color: EdenUtil.checkOrderStatus(index: index, orderStatus: currentOrderStatus?.orderStatus) ? Colors.green : Colors.grey,
                             ),
                             ),
                           ),
@@ -84,7 +95,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           child: EdenPrimaryButton(
                             label: 'Track your order',
                             onTap: (){
-                              EdenNavigator.navigateTo(context, OrderTimelineScreen.routeName);
+                              EdenNavigator.navigateTo(context, OrderTimelineScreen.routeName, arguments: currentOrderStatus);
                             },
                           ),
                         )
